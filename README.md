@@ -1,7 +1,7 @@
 # TinySiamese network
 <p align="justify">
 The TinySiamese neural network took on a new look and a new way of working which was different from the standard Siamese network. The difference first appeared in the input processing of the network. 
-Instead of having images as input, the input was the output feature vector of a pre-trained CNN model. In other words, all input images would be transformed into feature vectors using a feature extractor (such as a pre-trained CNN model).
+Instead of having images as input, the input was the output feature vector of a pre-trained feature extractor. In other words, all input images would be transformed into feature vectors using a feature extractor (here: ACGAN Discriminator; previously VGG16).
 Then, the Tiny-Siamese encoded the features in a small set of layers and finally calculated the distance between two encoded feature vectors and generated similarity score. Using this score, the model was trained from scratch with the Adam optimization algorithm and binary cross-entropy loss function.
 </p>
 
@@ -14,11 +14,13 @@ Then, the Tiny-Siamese encoded the features in a small set of layers and finally
 Requires python 3
 
 ## Code structure
+### Step 0:
+  Run "GANTrain.py" to train an ACGAN on fingerprint classes and save the Discriminator to "model/GANFVC.h5" (feature extractor, 4096-d).
 ### Step 1:
   Run the "FeatureVectorsTrain.py" file to create the CSV files of features (csv_train.csv), labels (csv_trainLabels.csv), and paths (csv_trainPaths.csv).
 ### Step 2:
   Run the "FeatureVectorsTest.py" file to create the CSV files of features (csv_test.csv), labels (csv_testLabels.csv), and paths (csv_testPaths.csv).
-  These two files use a pre-trained model (VGG16) on fingerprint classification for feature extraction. The pre-trained model should be saved in the "model" folder.
+  These two files use the trained ACGAN Discriminator for feature extraction. The model should be saved in the "model" folder as GANFVC.h5.
 ### Step 3:
   After completing Step 1 and Step 2, the CSV files will be created. We can then start the execution of the training code in the "TinySiameseTrain.py" file. Running this file will produce the trained TinySiamese model in the "model" folder.
 ### Step 4:
